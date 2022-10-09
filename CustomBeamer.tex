@@ -8,8 +8,7 @@
 % Demo report and presentation prepared by Aaron English (humdrumcomet on github)
 \documentclass{beamer}
 
-\usetheme{Berkeley}
-\usecolortheme[snowy]{owl}
+\usetheme[progressbar=frametitle, numbering=fraction]{metropolis}
 
 \usepackage{geometry} % useful for defining page geometries
 \usepackage{hyperref} % used for creating hyperlinks in documents. Both to the web and within the document itself
@@ -21,7 +20,7 @@
 \usepackage{booktabs} % adding commands to improve the look of tables
 \usepackage{csvsimple} % simplify table creation by importing .csv files directly
 \usepackage{siunitx} % consistent notation and correct formatting of units
-\usepackage{morewrites}
+\usepackage{morewrites} % important because with the glossaries, and beamers own files it is writing out, latex can use up its own hardcoded limit
 \DeclareSIUnit{\torr}{Torr} % Custom unit definition
 \usepackage{minted} % inclusion of code blocks with syntax highlighting and
 \setminted{linenos, autogobble, fontsize=\footnotesize, breaklines=true} % set global options for minted environments
@@ -30,7 +29,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % New packages introduced in this talk
-\usepackage[debug, toc, section=section, acronym, symbols]{glossaries} % Glossaries package
+\usepackage[debug, section=section, acronym, symbols]{glossaries} % Glossaries package
 \usepackage{tikz}
     \usetikzlibrary{math, arrows, circuits.ee.IEC, positioning, shapes.arrows, shapes.geometric, external}
 \usepackage{pgfplots}
@@ -265,18 +264,17 @@
  first={High Vacuum (HV)\glsadd{hvag}},
  see=[Glossary:]{hvag}
 }
-
+\DTMsavedate{presentation}{2022-10-11}
 \title{Hello Beamer!}
 \subtitle{Introducing Presentations in \LaTeX}
-% \date{\DTMdisplaydate{2022}{10}{11}}
 \author{Ghassan Arnouk \and
-        Alec Bales D'Cruze \and
-        Aaron English
-}
+            Alec Bales D'Cruze \and
+            Aaron English}
+\date{\DTMusedate{presentation}}
 
 \begin{document}
-    \begin{frame}[noframenumbering, plain]
-        \maketitle
+    \begin{frame}
+        \titlepage
     \end{frame}
     \begin{frame}[noframenumbering, plain]
         \frametitle{Contents}
@@ -295,14 +293,37 @@
             \end{itemize}
         \end{frame}
     \section{Builtin Beamer Features}
-        \begin{frame}
+        \begin{frame}[fragile]
             \frametitle{Beamer Has Many Possible Themes}
-            Many Beamer Themes Have:
-            \begin{itemize}
-                \item<1-> Progress bars
-                \item<2-> Navigation links
-                \item<3-> Other neat features
-            \end{itemize}
+            \begin{columns}[T]
+                \begin{column}{0.3\textwidth}
+                    Many Beamer Themes Have:
+                    \begin{itemize}
+                        \item<1-> Progress bars
+                        \item<2-> Navigation links
+                        \item<3-> Other neat features
+                    \end{itemize}
+                \end{column}
+                \begin{column}{0.7\textwidth}
+                        \begin{visibleenv}<4>
+                        Some nice themes
+                        \end{visibleenv}
+                        \begin{itemize}
+                            \item<4->
+                                \begin{minted}[linenos=false]{tex}
+                                    \usetheme[<options>]{<themename>}
+                                    \usecolortheme[<options>]{<themename>}
+                                \end{minted}
+                            \item<4-> \href{https://ctan.org/pkg/beamertheme-cuerna}{Cuerna}
+                            \item<4-> \href{https://ctan.org/pkg/beamercolorthemeowl}{Owl}
+                            \item<4-> \href{https://ctan.org/pkg/beamertheme-metropolis}{Metropolis (This theme)}
+                            \item<4-> \href{https://ctan.org/pkg/beamer-verona}{Verona}
+                            \item<4-> \href{https://ctan.org/pkg/beamerthemenord}{Nord}
+                            \item<4-> \href{https://ctan.org/pkg/beamertheme-light}{Light}
+                            \item<4-> \href{https://ctan.org/pkg/beamertheme-simpledarkblue}{SimpleDarkBlue}
+                        \end{itemize}
+                \end{column}
+            \end{columns}
         \end{frame}
         \begin{frame}
             \frametitle{Even Revealing Lists and Images}
@@ -332,22 +353,6 @@
                     \end{figure}
                 \end{column}
             \end{columns}
-        \end{frame}
-        \begin{frame}[containsverbatim]
-            \frametitle{Some Nice Alternative Themes}
-            \begin{minted}[linenos=false]{tex}
-                \usetheme[<options>]{<themename>}
-                \usecolortheme[<options>]{<themename>}
-            \end{minted}
-            \begin{itemize}
-                \item \href{https://ctan.org/pkg/beamertheme-cuerna}{Cuerna (This theme)}
-                \item \href{https://ctan.org/pkg/beamercolorthemeowl}{Owl}
-                \item \href{https://ctan.org/pkg/beamertheme-metropolis}{Metropolis}
-                \item \href{https://ctan.org/pkg/beamer-verona}{Verona}
-                \item \href{https://ctan.org/pkg/beamerthemenord}{Nord}
-                \item \href{https://ctan.org/pkg/beamertheme-light}{Light}
-                \item \href{https://ctan.org/pkg/beamertheme-simpledarkblue}{SimpleDarkBlue}
-            \end{itemize}
         \end{frame}
     \section{Demos}
         \begin{frame}
@@ -384,14 +389,6 @@
                 \item Talking about \gls{hva}
                 \item Once more, \gls{hva}
             \end{itemize}
-        \end{frame}
-        \begin{frame}
-            \frametitle{Bibliography}
-            \printbibliography
-        \end{frame}
-        \begin{frame}
-            \frametitle{Glossary}
-            \printglossaries
         \end{frame}
     \section{TikZ}
         \begin{frame}
@@ -440,5 +437,23 @@
                 \end{centering}
             \end{figure}
           \end{frame}
+    \section{Backmatter}
+        \begin{frame}
+            \frametitle{Bibliography}
+            \printbibliography
+        \end{frame}
+        \begin{frame}
+            \frametitle{Acronyms, Glossary, and Constants}
+            \printglossary[type=\acronymtype]
+            \printglossary[type=main]
+        \end{frame}
+        \begin{frame}
+            \frametitle{Constants}
+            \printglossary[type=constants, nonumberlist, nopostdot]
+        \end{frame}
+        \begin{frame}
+            \frametitle{Symbols}
+            \printglossary[type=symbols]
+        \end{frame}
 
 \end{document}
