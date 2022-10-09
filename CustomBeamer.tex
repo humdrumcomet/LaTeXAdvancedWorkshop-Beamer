@@ -5,15 +5,14 @@
 % arara: pdflatex: { shell: yes }
 
 
+% Demo report and presentation prepared by Aaron English (humdrumcomet on github)
 \documentclass{beamer}
 
-\usetheme{marburg}
+\usetheme{Marburg}
+% \usecolortheme{owl}
 
 \usepackage{geometry} % useful for defining page geometries
 \usepackage{hyperref} % used for creating hyperlinks in documents. Both to the web and within the document itself
-\usepackage[tbtags]{amsmath} % for typesetting math (American Mathematical Society)
-\usepackage{amsfonts} % fonts and mathematical symbols
-\usepackage{amssymb} % more mathematical symbols
 \usepackage[utf8]{inputenc} % how to treat the written file (as utf8)
 \usepackage[T1]{fontenc} % the encoding for the output file T1 is the most common, includes accents and many other commonly needed/used characters
 \usepackage[style=ieee,backend=biber]{biblatex} % for handling bibliographies
@@ -40,6 +39,9 @@
     \pgfplotsset{compat=newest, compat/show suggested version=false}
     \usepgfplotslibrary{groupplots}
 \usepackage[siunitx,american voltages, american currents, RPvoltages]{circuitikz}
+
+% A command for less cramped nested fractions
+\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
 
 %Get rounded wire jumps
 \tikzset{
@@ -171,6 +173,30 @@
     name={\ensuremath{E_{G}}},
     description={Bandgap}
 }
+\newglossaryentry{temp}
+{
+    type=symbols,
+    name={\ensuremath{T}},
+    description={Temperature (\si{\kelvin})}
+}
+\newglossaryentry{rd}
+{
+    type=symbols,
+    name={\ensuremath{R_{D}}},
+    description={Resistance}
+}
+\newglossaryentry{vout}
+{
+    type=symbols,
+    name={\ensuremath{V_{out}}},
+    description={Output voltage}
+}
+\newglossaryentry{vin}
+{
+    type=symbols,
+    name={\ensuremath{V_{in}}},
+    description={Input voltage}
+}
 
 %%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% Acronym Only
@@ -244,19 +270,14 @@
 
 \title{Hello Beamer!}
 \subtitle{Introducing Presentations in \LaTeX}
-\date{\DTMdisplaydate{2022}{10}{11}}
+% \date{\DTMdisplaydate{2022}{10}{11}}
 \author{Ghassan Arnouk \and
         Alec Bales D'Cruze \and
         Aaron English
 }
 
-%% Beamer theme files
-%\usetheme{carletonUniversity}
-
 \begin{document}
-    \begin{frame}[noframenumbering, plain]
-        \titlepage
-    \end{frame}
+    \maketitle
     \begin{frame}[noframenumbering, plain]
         \frametitle{Contents}
         \tableofcontents
@@ -297,7 +318,18 @@
                     \end{enumerate}
                 \end{column}
                 \begin{column}{0.5\textwidth}
-                    \ExecuteMetaData[\importPath/assets.tex]{processImgs}
+                    \begin{figure}[htbp]
+                        \begin{centering}
+                            \begin{overlayarea}{\textwidth}{\textheight}
+                                \only<1>{\includegraphics[width=\textwidth]{./Images/NewChamberAssembly/beamLineNoCartView2Cropped.jpg}}%
+                                \only<2>{\includegraphics[width=\textwidth]{./Images/NewChamberAssembly/FullChambAssCrop.jpg}}%
+                                \only<3>{\includegraphics[width=\textwidth]{./Images/NewChamberAssembly/PIGCropped.jpg}}%
+                                \only<4>{\includegraphics[width=\textwidth]{./Images/IRLimages/manedPigPartsSmall.jpg}}%
+                                \only<5>{\includegraphics[height=0.65\textheight]{./Images/IRLimages/pigWithEinz.jpg}}%
+                                \only<6>{\includegraphics[width=\textwidth]{./Images/IRLimages/nitrogenPlasmaBeam.jpg}}%
+                            \end{overlayarea}
+                        \end{centering}
+                    \end{figure}
                 \end{column}
             \end{columns}
         \end{frame}
@@ -316,15 +348,16 @@
         \end{frame}
         \begin{frame}
             \frametitle{A Table}
-            \begin{table}[htbp]
+            \begin{table}[H]
                 \centering
                 \caption{Table of specified parameters and achieved values}
-                \vspace{0.2cm}
-                \begin{tabular}{c|c|c|c}
-                     & \bfseries Target & \bfseries Values & \bfseries Results
-                    \csvreader[head to column names]{TargetsAndVals.csv}{}
-                    {\\\hline\csvcoli & \csvcolii & \csvcoliii & \csvcoliv }
-                \end{tabular}
+                \vspace{0.1cm}
+                    \csvreader[
+                    head to column names,
+                    tabular = cccc,
+                    table head = \toprule \bfseries Parameter & \bfseries Target & \bfseries Calculated & \bfseries Simulated \\\midrule,
+                    table foot = \bottomrule,
+                    ]{./Data/TargetsAndVals.csv}{}{\csvcoli & \csvcolii & \csvcoliii & \csvcoliv}
                 \label{Table:Parameters}
             \end{table}
         \end{frame}
@@ -382,8 +415,8 @@
                             xlabel=\gls{time},
                             ylabel=\gls{press},
                             title=Chamber Pressure over Time]
-                            \addplot[color=red, mark size=0.4, style=thick]table[x=time, y=p1, col sep=comma]{./vacuumTech.csv};
-                            \addplot[color=black, mark=*, mark size=0.4, style=thick]table[x=time, y=p2, col sep=comma]{./vacuumTech.csv};
+                            \addplot[color=red, mark size=0.4, style=thick]table[x=time, y=p1, col sep=comma]{./Data/vacuumTech.csv};
+                            \addplot[color=black, mark=*, mark size=0.4, style=thick]table[x=time, y=p2, col sep=comma]{./Data/vacuumTech.csv};
                         \end{axis}
                     \end{tikzpicture}
                     \caption{A TikZ plot from some data in a CSV file}
@@ -392,21 +425,4 @@
             \end{figure}
         \end{frame}
     
-    \section{Next Steps}\label{sct:allRes}
-        \begin{frame}
-            \frametitle{Some Glimpses of Even More Possibilities}
-        \end{frame}
-        \begin{frame}
-            \frametitle{Double Scroll}
-            \ExecuteMetaData[\importPath/assets.tex]{tikzLorenz}
-        \end{frame}
-        \begin{frame}
-            \frametitle{Animate the Double Scroll}
-            \ExecuteMetaData[\importPath/assets.tex]{lorenzAnimate}
-        \end{frame}
-        \begin{frame}
-            \frametitle{How About Game of Life?}
-            \ExecuteMetaData[\importPath/assets.tex]{golAnimate}
-        \end{frame}
-
 \end{document}
