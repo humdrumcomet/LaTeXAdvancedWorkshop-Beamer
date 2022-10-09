@@ -8,8 +8,8 @@
 % Demo report and presentation prepared by Aaron English (humdrumcomet on github)
 \documentclass{beamer}
 
-\usetheme{Marburg}
-% \usecolortheme{owl}
+\usetheme{Berkeley}
+\usecolortheme[snowy]{owl}
 
 \usepackage{geometry} % useful for defining page geometries
 \usepackage{hyperref} % used for creating hyperlinks in documents. Both to the web and within the document itself
@@ -21,6 +21,7 @@
 \usepackage{booktabs} % adding commands to improve the look of tables
 \usepackage{csvsimple} % simplify table creation by importing .csv files directly
 \usepackage{siunitx} % consistent notation and correct formatting of units
+\usepackage{morewrites}
 \DeclareSIUnit{\torr}{Torr} % Custom unit definition
 \usepackage{minted} % inclusion of code blocks with syntax highlighting and
 \setminted{linenos, autogobble, fontsize=\footnotesize, breaklines=true} % set global options for minted environments
@@ -29,9 +30,6 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % New packages introduced in this talk
-\usepackage{standalone}
-\usepackage{import}
-\usepackage{catchfilebetweentags}
 \usepackage[debug, toc, section=section, acronym, symbols]{glossaries} % Glossaries package
 \usepackage{tikz}
     \usetikzlibrary{math, arrows, circuits.ee.IEC, positioning, shapes.arrows, shapes.geometric, external}
@@ -277,7 +275,9 @@
 }
 
 \begin{document}
-    \maketitle
+    \begin{frame}[noframenumbering, plain]
+        \maketitle
+    \end{frame}
     \begin{frame}[noframenumbering, plain]
         \frametitle{Contents}
         \tableofcontents
@@ -332,6 +332,22 @@
                     \end{figure}
                 \end{column}
             \end{columns}
+        \end{frame}
+        \begin{frame}[containsverbatim]
+            \frametitle{Some Nice Alternative Themes}
+            \begin{minted}[linenos=false]{tex}
+                \usetheme[<options>]{<themename>}
+                \usecolortheme[<options>]{<themename>}
+            \end{minted}
+            \begin{itemize}
+                \item \href{https://ctan.org/pkg/beamertheme-cuerna}{Cuerna (This theme)}
+                \item \href{https://ctan.org/pkg/beamercolorthemeowl}{Owl}
+                \item \href{https://ctan.org/pkg/beamertheme-metropolis}{Metropolis}
+                \item \href{https://ctan.org/pkg/beamer-verona}{Verona}
+                \item \href{https://ctan.org/pkg/beamerthemenord}{Nord}
+                \item \href{https://ctan.org/pkg/beamertheme-light}{Light}
+                \item \href{https://ctan.org/pkg/beamertheme-simpledarkblue}{SimpleDarkBlue}
+            \end{itemize}
         \end{frame}
     \section{Demos}
         \begin{frame}
@@ -423,6 +439,6 @@
                     \label{fig:tikzPlot}
                 \end{centering}
             \end{figure}
-        \end{frame}
-    
+          \end{frame}
+
 \end{document}
